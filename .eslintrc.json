@@ -1,0 +1,17 @@
+{
+    "extends": ["airbnb", "prettier"],
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es6": true,
+        "jest": true,
+        "node": true
+    },
+    "rules": {
+        "jsx-a11y/href-no-hash": ["off"],
+        "react/prop-types": 0,
+        "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx"] }],
+        "indent": ["error", 2],
+        "camelcase": ["error", { "properties": "never", "ignoreDestructuring": true }]
+    }
+}
