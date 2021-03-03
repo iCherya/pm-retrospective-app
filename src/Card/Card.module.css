@@ -6,7 +6,8 @@
   border: 1px solid #33353b;
   color: #a1a8b5;
   box-shadow: 0 8px 32px 0 rgba(34, 34, 49, 0.37);
-  cursor: grab;
+  /* cursor: grab; */
+  font-weight: 200;
 }
 
 .info {
@@ -17,28 +18,4 @@
   justify-content: space-between;
   font-size: 14px;
   align-items: center;
-}
-
-.likes {
-  display: flex;
-  align-items: center;
-  white-space: nowrap;
-}
-
-.likes button {
-  background: transparent;
-  outline: 0;
-  color: inherit;
-  cursor: pointer;
-  border-radius: 5px;
-  margin: 0 5px;
-  border: 1px solid #33353b;
-}
-
-.likes button:active {
-  transform: translateY(1px);
-}
-
-.likes button:hover {
-  background-color: #212225;
 }

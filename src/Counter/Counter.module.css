@@ -1,6 +1,23 @@
 .counter {
-  border-radius: 10px;
-  border: 2px solid #33353b;
-  padding: 5px 10px;
-  color: #a1a8b5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 70px;
+}
+
+.counter button {
+  background: transparent;
+  outline: 0;
+  color: inherit;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid #33353b;
+}
+
+.counter button:active {
+  transform: translateY(1px);
+}
+
+.counter button:hover {
+  background-color: #212225;
 }

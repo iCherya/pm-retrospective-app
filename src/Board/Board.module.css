@@ -4,6 +4,7 @@
   border-radius: 10px;
   border: 1px solid #33353b;
   padding: 1em;
+  height: 100%;
 }
 
 .top {
@@ -37,6 +38,13 @@
 
 .purple {
   background-color: #4b3baa;
+}
+
+.counter {
+  border-radius: 10px;
+  border: 2px solid #33353b;
+  padding: 5px 10px;
+  color: #a1a8b5;
 }
 
 .add-btn {
