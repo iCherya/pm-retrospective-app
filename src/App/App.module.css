@@ -1,10 +1,38 @@
 .App {
-  max-width: 1140px;
-  padding: 1em;
-  margin: 0 auto;
+  background-color: rgb(30, 31, 35);
+  border-radius: 10px;
+  padding: 2em;
+  min-height: calc(100vh - 2em);
+  box-shadow: 0 0.6px 2.7px rgba(0, 0, 0, 0.016), 0 1.5px 6.9px rgba(0, 0, 0, 0.022),
+    0 3px 14.2px rgba(0, 0, 0, 0.028), 0 6.2px 29.2px rgba(0, 0, 0, 0.034),
+    0 17px 80px rgba(0, 0, 0, 0.05);
+}
+
+.top {
+  margin-bottom: 1em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .heading {
-  margin: 1em 0;
-  color: white;
+  color: #c6c6c8;
+  font-size: 24px;
+  display: flex;
+}
+
+.heading:after {
+  content: 'React HW2';
+  background-color: #143364;
+  padding: 6px 10px;
+  color: #3a95fa;
+  font-size: 14px;
+  margin-left: 10px;
+  border-radius: 5px;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  gap: 1em;
 }
