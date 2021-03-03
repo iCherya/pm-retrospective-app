@@ -5,13 +5,18 @@
   width: 70px;
 }
 
+.counter span {
+  color: #0065fe;
+}
+
 .counter button {
-  background: transparent;
+  background-color: transparent;
   outline: 0;
   color: inherit;
   cursor: pointer;
   border-radius: 5px;
   border: 1px solid #33353b;
+  transition: background-color 0.2s linear;
 }
 
 .counter button:active {

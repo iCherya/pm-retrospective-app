@@ -1,7 +1,8 @@
 .board {
   background-color: #131417;
-  flex-grow: 1;
+  flex: 1 1 33%;
   border-radius: 10px;
+  box-sizing: border-box;
   border: 1px solid #33353b;
   padding: 1em;
   height: 100%;
@@ -20,24 +21,10 @@
   margin-right: auto;
 }
 
-.green,
-.red,
-.purple {
+.icon {
   width: 1em;
   height: 1em;
   border-radius: 5px;
-}
-
-.green {
-  background-color: #0ac0c0;
-}
-
-.red {
-  background-color: #cf5555;
-}
-
-.purple {
-  background-color: #4b3baa;
 }
 
 .counter {
