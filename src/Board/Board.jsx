@@ -5,19 +5,28 @@ import Card from '../Card/Card';
 class Board extends React.Component {
   constructor(props) {
     super(props);
+    const { boardTitle } = this.props;
     this.state = {
-      cards: [],
+      cards: [
+        {
+          createdDate: Date.now(),
+          cardContent: boardTitle + Date.now(),
+          counterValue: 0
+        }
+      ],
       isAddingCard: false,
-      cardCandidateValue: ''
+      cardCandidateValue: '',
+      shouldDelete: false
     };
 
     this.createCard = this.createCard.bind(this);
+    this.deleteCard = this.deleteCard.bind(this);
     this.sortCards = this.sortCards.bind(this);
     this.updateCounterValue = this.updateCounterValue.bind(this);
     this.toggleCardAddingMode = this.toggleCardAddingMode.bind(this);
     this.handleCardSubmit = this.handleCardSubmit.bind(this);
     this.handleCardChange = this.handleCardChange.bind(this);
-    this.deleteCard = this.deleteCard.bind(this);
+    this.handleDrop = this.handleDrop.bind(this);
   }
 
   handleCardChange(e) {
@@ -34,28 +43,54 @@ class Board extends React.Component {
     this.toggleCardAddingMode();
   }
 
-  updateCounterValue(createdDate, value) {
-    this.setState((previousState) => {
-      const { cards } = previousState;
-
-      return {
-        cards: cards.map((card) =>
-          card.createdDate === createdDate
-            ? { ...card, counterValue: card.counterValue + value }
-            : card
-        )
-      };
-    });
-
-    const { cards } = this.state;
-    if (cards.length > 1) this.sortCards();
+  static handleDragover(e) {
+    e.preventDefault();
+    console.log(e);
   }
 
-  sortCards() {
-    this.setState((previousState) => {
-      const { cards } = previousState;
+  handleDrop(e) {
+    console.log('drop');
+    console.log(e.dropEffect);
+    const dataTransfer = e.dataTransfer.getData('card').split(',');
+    const card = {};
 
-      return { cards: cards.sort((a, b) => b.counterValue - a.counterValue) };
+    for (let i = 0; i < dataTransfer.length; i += 2) {
+      const key = dataTransfer[i];
+      const value = dataTransfer[i + 1];
+      card[key] = Number.isNaN(+value) ? value : +value;
+    }
+
+    const { cards } = this.state;
+    const isCurrentBoard = cards.find((el) => el.createdDate === card.createdDate);
+    console.log(isCurrentBoard, this.props);
+
+    if (!isCurrentBoard) {
+      this.setState({ cards: [...cards, card] });
+      this.sortCards();
+    } else {
+      this.setState({ cards });
+      this.sortCards();
+    }
+  }
+
+  deleteCard(createdDate) {
+    const { shouldDelete } = this.state;
+
+    if (shouldDelete) {
+      const { cards } = this.state;
+      const filtered = cards.filter((el) => el.createdDate !== createdDate);
+      this.setState({ cards: filtered });
+    }
+  }
+
+  toggleCardAddingMode() {
+    this.setState((previousState) => {
+      const { isAddingCard } = previousState;
+
+      return {
+        isAddingCard: !isAddingCard,
+        cardCandidateValue: ''
+      };
     });
   }
 
@@ -75,31 +110,37 @@ class Board extends React.Component {
     this.sortCards();
   }
 
-  deleteCard(createdDate) {
+  sortCards() {
     this.setState((previousState) => {
       const { cards } = previousState;
 
-      return { cards: cards.filter((card) => card.createdDate !== createdDate) };
+      return { cards: cards.sort((a, b) => b.counterValue - a.counterValue) };
     });
   }
 
-  toggleCardAddingMode() {
+  updateCounterValue(createdDate, value) {
     this.setState((previousState) => {
-      const { isAddingCard } = previousState;
+      const { cards } = previousState;
 
       return {
-        isAddingCard: !isAddingCard,
-        cardCandidateValue: ''
+        cards: cards.map((card) =>
+          card.createdDate === createdDate
+            ? { ...card, counterValue: card.counterValue + value }
+            : card
+        )
       };
     });
+
+    const { cards } = this.state;
+    if (cards.length > 1) this.sortCards();
   }
 
   render() {
     const { boardTitle, boardColor } = this.props;
-    const { cards, isAddingCard } = this.state;
+    const { cards, isAddingCard, isDragover } = this.state;
 
     return (
-      <div className={styles.board}>
+      <div className={styles.board} onDrop={this.handleDrop} onDragOver={Board.handleDragover}>
         <div className={styles.top}>
           <div className={styles.icon} style={{ backgroundColor: boardColor }} />
           <h2 className={styles.heading}>{boardTitle}</h2>
@@ -123,11 +164,11 @@ class Board extends React.Component {
             + Create new note
           </button>
         )}
-
+        {isDragover ? <div className={styles['shadow-card']} /> : null}
         <ul>
           {cards.map((card) => (
             <Card
-              key={card.createdDate}
+              key={performance.now()}
               mainColor={boardColor}
               card={card}
               updateCounterValue={this.updateCounterValue}

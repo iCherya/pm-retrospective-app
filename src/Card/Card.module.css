@@ -6,8 +6,12 @@
   border: 1px solid #33353b;
   color: #a1a8b5;
   box-shadow: 0 8px 32px 0 rgba(34, 34, 49, 0.37);
-  /* cursor: grab; */
+  cursor: grab;
   font-weight: 200;
+}
+
+.selected {
+  opacity: 0.4;
 }
 
 .info {

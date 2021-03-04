@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import styles from './Card.module.css';
 import Counter from '../Counter/Counter';
 
@@ -7,10 +8,12 @@ class Card extends React.Component {
     super(props);
 
     const { card } = this.props;
-    this.state = { ...card };
+    this.state = { ...card, isDragging: false };
 
     this.incrementCounter = this.incrementCounter.bind(this);
     this.decrementCounter = this.decrementCounter.bind(this);
+    this.dragStartHandler = this.dragStartHandler.bind(this);
+    this.dragEndHandler = this.dragEndHandler.bind(this);
   }
 
   static getHumanDateFormat(createdDate) {
@@ -40,6 +43,28 @@ class Card extends React.Component {
     return `${date} ${month} ${year}, ${time}`;
   }
 
+  dragStartHandler(e) {
+    e.dataTransfer.setData('card', Object.entries(this.state));
+
+    this.toggleDraggingMode();
+  }
+
+  dragEndHandler() {
+    this.toggleDraggingMode();
+    const { deleteCard } = this.props;
+    const { createdDate } = this.state;
+
+    deleteCard(createdDate);
+  }
+
+  toggleDraggingMode() {
+    this.setState((previousState) => {
+      const { isDragging } = previousState;
+
+      return { isDragging: !isDragging };
+    });
+  }
+
   incrementCounter() {
     this.setState((previousState) => {
       const { counterValue } = previousState;
@@ -65,10 +90,17 @@ class Card extends React.Component {
   }
 
   render() {
-    const { createdDate, cardContent, counterValue } = this.state;
+    const { createdDate, cardContent, counterValue, isDragging } = this.state;
     const { mainColor, deleteCard } = this.props;
+
     return (
-      <li className={styles.card} style={{ boxShadow: `0 5px 15px -9px ${mainColor}` }}>
+      <li
+        draggable
+        className={classNames(styles.card, isDragging ? styles.selected : null)}
+        style={{ boxShadow: `0 5px 15px -9px ${mainColor}` }}
+        onDragStart={this.dragStartHandler}
+        onDragEnd={this.dragEndHandler}
+      >
         <div className={styles.content}>{cardContent}</div>
         <div className={styles.info}>
           <div className={styles.createdDate}>{Card.getHumanDateFormat(createdDate)}</div>
