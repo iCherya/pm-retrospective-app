@@ -66,9 +66,9 @@ class Card extends React.Component {
 
   render() {
     const { createdDate, cardContent, counterValue } = this.state;
-
+    const { mainColor } = this.props;
     return (
-      <li className={styles.card}>
+      <li className={styles.card} style={{ boxShadow: `0 5px 15px -9px ${mainColor}` }}>
         <div className={styles.content}>{cardContent}</div>
         <div className={styles.info}>
           <div className={styles.createdDate}>{Card.getHumanDateFormat(createdDate)}</div>

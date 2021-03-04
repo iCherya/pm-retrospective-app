@@ -6,13 +6,7 @@ class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cards: [
-        {
-          createdDate: Date.now(),
-          cardContent: 'Lorem input',
-          counterValue: 4
-        }
-      ],
+      cards: [],
       isAddingCard: false,
       cardCandidateValue: ''
     };
@@ -123,7 +117,12 @@ class Board extends React.Component {
 
         <ul>
           {cards.map((card) => (
-            <Card key={card.createdDate} card={card} updateCounterValue={this.updateCounterValue} />
+            <Card
+              key={card.createdDate}
+              mainColor={boardColor}
+              card={card}
+              updateCounterValue={this.updateCounterValue}
+            />
           ))}
         </ul>
       </div>
