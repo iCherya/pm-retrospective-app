@@ -66,12 +66,19 @@ class Card extends React.Component {
 
   render() {
     const { createdDate, cardContent, counterValue } = this.state;
-    const { mainColor } = this.props;
+    const { mainColor, deleteCard } = this.props;
     return (
       <li className={styles.card} style={{ boxShadow: `0 5px 15px -9px ${mainColor}` }}>
         <div className={styles.content}>{cardContent}</div>
         <div className={styles.info}>
           <div className={styles.createdDate}>{Card.getHumanDateFormat(createdDate)}</div>
+          <button
+            type="button"
+            className={styles['delete-btn']}
+            onClick={() => deleteCard(createdDate)}
+          >
+            &#128465;
+          </button>
           <Counter
             counterValue={counterValue}
             incrementCounter={this.incrementCounter}

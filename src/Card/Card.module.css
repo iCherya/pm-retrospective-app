@@ -18,8 +18,27 @@
   justify-content: space-between;
   font-size: 14px;
   align-items: center;
+  gap: 5px;
 }
 
 .createdDate {
   text-transform: capitalize;
+}
+
+.delete-btn {
+  border: 1px solid #232628;
+  padding: 2px 6px;
+  border-radius: 5px;
+  background-color: transparent;
+  transition: background-color 0.1s linear;
+  outline: 0;
+  cursor: pointer;
+}
+
+.delete-btn:active {
+  transform: translateY(1px);
+}
+
+.delete-btn:hover {
+  background-color: #1e1e1e;
 }

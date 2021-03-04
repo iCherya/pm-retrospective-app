@@ -17,6 +17,7 @@ class Board extends React.Component {
     this.toggleCardAddingMode = this.toggleCardAddingMode.bind(this);
     this.handleCardSubmit = this.handleCardSubmit.bind(this);
     this.handleCardChange = this.handleCardChange.bind(this);
+    this.deleteCard = this.deleteCard.bind(this);
   }
 
   handleCardChange(e) {
@@ -74,6 +75,14 @@ class Board extends React.Component {
     this.sortCards();
   }
 
+  deleteCard(createdDate) {
+    this.setState((previousState) => {
+      const { cards } = previousState;
+
+      return { cards: cards.filter((card) => card.createdDate !== createdDate) };
+    });
+  }
+
   toggleCardAddingMode() {
     this.setState((previousState) => {
       const { isAddingCard } = previousState;
@@ -122,6 +131,7 @@ class Board extends React.Component {
               mainColor={boardColor}
               card={card}
               updateCounterValue={this.updateCounterValue}
+              deleteCard={this.deleteCard}
             />
           ))}
         </ul>
