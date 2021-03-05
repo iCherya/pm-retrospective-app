@@ -44,7 +44,7 @@ class Card extends React.Component {
   }
 
   dragStartHandler(e) {
-    e.dataTransfer.setData('card', Object.entries(this.state));
+    e.dataTransfer.setData('card', [Object.entries(this.state)]);
 
     this.toggleDraggingMode();
   }
@@ -91,13 +91,13 @@ class Card extends React.Component {
 
   render() {
     const { createdDate, cardContent, counterValue, isDragging } = this.state;
-    const { mainColor, deleteCard } = this.props;
+    const { boardColor, deleteCard } = this.props;
 
     return (
       <li
         draggable
         className={classNames(styles.card, isDragging ? styles.selected : null)}
-        style={{ boxShadow: `0 5px 15px -9px ${mainColor}` }}
+        style={{ boxShadow: `0 5px 15px -9px ${boardColor}` }}
         onDragStart={this.dragStartHandler}
         onDragEnd={this.dragEndHandler}
       >

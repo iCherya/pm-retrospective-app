@@ -1,3 +1,7 @@
+/* eslint-disable camelcase */
+/* eslint-disable no-shadow */
+/* eslint-disable react/no-unused-state */
+/* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import styles from './Board.module.css';
 import Card from '../Card/Card';
@@ -11,12 +15,12 @@ class Board extends React.Component {
         {
           createdDate: Date.now(),
           cardContent: boardTitle + Date.now(),
-          counterValue: 0
+          counterValue: Math.round((Math.random() - 0.5) * 10)
         }
       ],
       isAddingCard: false,
       cardCandidateValue: '',
-      shouldDelete: false
+      isCurrentBoard: true
     };
 
     this.createCard = this.createCard.bind(this);
@@ -45,12 +49,11 @@ class Board extends React.Component {
 
   static handleDragover(e) {
     e.preventDefault();
-    console.log(e);
   }
 
   handleDrop(e) {
-    console.log('drop');
-    console.log(e.dropEffect);
+    console.log('drop', this.props, e);
+
     const dataTransfer = e.dataTransfer.getData('card').split(',');
     const card = {};
 
@@ -62,25 +65,29 @@ class Board extends React.Component {
 
     const { cards } = this.state;
     const isCurrentBoard = cards.find((el) => el.createdDate === card.createdDate);
-    console.log(isCurrentBoard, this.props);
 
     if (!isCurrentBoard) {
-      this.setState({ cards: [...cards, card] });
-      this.sortCards();
-    } else {
-      this.setState({ cards });
+      this.setState((previousState) => {
+        const { cards } = previousState;
+
+        return {
+          cards: [...cards, card]
+        };
+      });
+
       this.sortCards();
     }
   }
 
   deleteCard(createdDate) {
-    const { shouldDelete } = this.state;
-
-    if (shouldDelete) {
-      const { cards } = this.state;
+    this.setState((previousState) => {
+      const { cards } = previousState;
       const filtered = cards.filter((el) => el.createdDate !== createdDate);
-      this.setState({ cards: filtered });
-    }
+
+      return {
+        cards: filtered
+      };
+    });
   }
 
   toggleCardAddingMode() {
@@ -136,6 +143,7 @@ class Board extends React.Component {
   }
 
   render() {
+    console.log('render');
     const { boardTitle, boardColor } = this.props;
     const { cards, isAddingCard, isDragover } = this.state;
 
@@ -168,8 +176,9 @@ class Board extends React.Component {
         <ul>
           {cards.map((card) => (
             <Card
+              // key={card.createdDate}
               key={performance.now()}
-              mainColor={boardColor}
+              boardColor={boardColor}
               card={card}
               updateCounterValue={this.updateCounterValue}
               deleteCard={this.deleteCard}
