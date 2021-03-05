@@ -14,9 +14,10 @@ class Board extends React.Component {
           counterValue: Math.round((Math.random() - 0.5) * 10)
         }
       ],
-      isAddingCard: false,
-      cardCandidateValue: ''
+      isAddingCard: false
     };
+    this.newCardContent = '';
+    this.draggingCardColor = '';
 
     this.createCard = this.createCard.bind(this);
     this.deleteCard = this.deleteCard.bind(this);
@@ -29,16 +30,15 @@ class Board extends React.Component {
   }
 
   handleCardChange(e) {
-    this.setState({ cardCandidateValue: e.target.value });
+    this.newCardContent = e.target.value;
   }
 
   handleCardSubmit(e) {
     e.preventDefault();
+    const { newCardContent } = this;
+    if (newCardContent === '') return;
 
-    const { cardCandidateValue } = this.state;
-    if (cardCandidateValue.trim() === '') return;
-
-    this.createCard(cardCandidateValue);
+    this.createCard(newCardContent);
     this.toggleCardAddingMode();
   }
 
@@ -48,6 +48,8 @@ class Board extends React.Component {
 
   handleDrop(e) {
     const dataTransfer = e.dataTransfer.getData('card').split(',');
+    this.draggingCardColor = e.dataTransfer.getData('boardColor');
+
     const card = {};
 
     for (let i = 0; i < dataTransfer.length; i += 2) {
@@ -66,15 +68,21 @@ class Board extends React.Component {
     this.sortCards();
   }
 
-  deleteCard(createdDate) {
-    this.setState((previousState) => {
-      const { cards } = previousState;
-      const filtered = cards.filter((el) => el.createdDate !== createdDate);
+  deleteCard(createdDate, userClicked) {
+    const { boardColor } = this.props;
 
-      return {
-        cards: filtered
-      };
-    });
+    if (userClicked || this.draggingCardColor !== boardColor) {
+      this.setState((previousState) => {
+        const { cards } = previousState;
+        const filtered = cards.filter((el) => el.createdDate !== createdDate);
+
+        return {
+          cards: filtered
+        };
+      });
+    }
+
+    this.draggingCardColor = '';
   }
 
   toggleCardAddingMode() {

@@ -45,7 +45,9 @@ class Card extends React.Component {
 
   dragStartHandler(e) {
     this.toggleDraggingMode();
+    const { boardColor } = this.props;
     e.dataTransfer.setData('card', [Object.entries(this.state)]);
+    e.dataTransfer.setData('boardColor', boardColor);
   }
 
   dragEndHandler(e) {
@@ -54,7 +56,7 @@ class Card extends React.Component {
     const { createdDate } = this.state;
 
     if (e.dataTransfer.dropEffect !== 'none') {
-      setTimeout(() => deleteCard(createdDate), 1000);
+      deleteCard(createdDate, false);
     }
   }
 
@@ -108,7 +110,7 @@ class Card extends React.Component {
           <button
             type="button"
             className={styles['delete-btn']}
-            onClick={() => deleteCard(createdDate)}
+            onClick={() => deleteCard(createdDate, true)}
           >
             &#128465;
           </button>
