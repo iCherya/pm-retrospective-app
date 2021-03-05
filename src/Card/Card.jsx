@@ -52,8 +52,9 @@ class Card extends React.Component {
     this.toggleDraggingMode();
     const { deleteCard } = this.props;
     const { createdDate } = this.state;
+
     if (e.dataTransfer.dropEffect !== 'none') {
-      deleteCard(createdDate);
+      setTimeout(() => deleteCard(createdDate), 1000);
     }
   }
 

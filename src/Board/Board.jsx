@@ -134,7 +134,7 @@ class Board extends React.Component {
     const { cards, isAddingCard, isDragover } = this.state;
 
     return (
-      <div className={styles.board} onDrop={this.handleDrop} onDragOver={Board.handleDragover}>
+      <div className={styles.board}>
         <div className={styles.top}>
           <div className={styles.icon} style={{ backgroundColor: boardColor }} />
           <h2 className={styles.heading}>{boardTitle}</h2>
@@ -159,7 +159,11 @@ class Board extends React.Component {
           </button>
         )}
         {isDragover ? <div className={styles['shadow-card']} /> : null}
-        <ul>
+        <ul
+          className={styles['cards-container']}
+          onDrop={this.handleDrop}
+          onDragOver={Board.handleDragover}
+        >
           {cards.map((card) => (
             <Card
               key={card.createdDate}

@@ -101,3 +101,7 @@ button:focus {
 .submit-btn:hover {
   background-color: #2277f7;
 }
+
+.cards-container {
+  min-height: 400px;
+}
