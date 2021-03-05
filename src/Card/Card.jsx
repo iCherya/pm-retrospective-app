@@ -44,17 +44,17 @@ class Card extends React.Component {
   }
 
   dragStartHandler(e) {
-    e.dataTransfer.setData('card', [Object.entries(this.state)]);
-
     this.toggleDraggingMode();
+    e.dataTransfer.setData('card', [Object.entries(this.state)]);
   }
 
-  dragEndHandler() {
+  dragEndHandler(e) {
     this.toggleDraggingMode();
     const { deleteCard } = this.props;
     const { createdDate } = this.state;
-
-    deleteCard(createdDate);
+    if (e.dataTransfer.dropEffect !== 'none') {
+      deleteCard(createdDate);
+    }
   }
 
   toggleDraggingMode() {

@@ -1,7 +1,3 @@
-/* eslint-disable camelcase */
-/* eslint-disable no-shadow */
-/* eslint-disable react/no-unused-state */
-/* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import styles from './Board.module.css';
 import Card from '../Card/Card';
@@ -19,8 +15,7 @@ class Board extends React.Component {
         }
       ],
       isAddingCard: false,
-      cardCandidateValue: '',
-      isCurrentBoard: true
+      cardCandidateValue: ''
     };
 
     this.createCard = this.createCard.bind(this);
@@ -52,8 +47,6 @@ class Board extends React.Component {
   }
 
   handleDrop(e) {
-    console.log('drop', this.props, e);
-
     const dataTransfer = e.dataTransfer.getData('card').split(',');
     const card = {};
 
@@ -63,20 +56,14 @@ class Board extends React.Component {
       card[key] = Number.isNaN(+value) ? value : +value;
     }
 
-    const { cards } = this.state;
-    const isCurrentBoard = cards.find((el) => el.createdDate === card.createdDate);
+    this.setState((previousState) => {
+      const { cards } = previousState;
+      const isCurrentBoard = !!cards.find((el) => el.createdDate === card.createdDate);
 
-    if (!isCurrentBoard) {
-      this.setState((previousState) => {
-        const { cards } = previousState;
+      return isCurrentBoard ? {} : { cards: [...cards, card] };
+    });
 
-        return {
-          cards: [...cards, card]
-        };
-      });
-
-      this.sortCards();
-    }
+    this.sortCards();
   }
 
   deleteCard(createdDate) {
@@ -143,7 +130,6 @@ class Board extends React.Component {
   }
 
   render() {
-    console.log('render');
     const { boardTitle, boardColor } = this.props;
     const { cards, isAddingCard, isDragover } = this.state;
 
@@ -176,8 +162,7 @@ class Board extends React.Component {
         <ul>
           {cards.map((card) => (
             <Card
-              // key={card.createdDate}
-              key={performance.now()}
+              key={card.createdDate}
               boardColor={boardColor}
               card={card}
               updateCounterValue={this.updateCounterValue}
