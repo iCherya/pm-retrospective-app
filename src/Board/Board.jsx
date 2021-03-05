@@ -5,15 +5,9 @@ import Card from '../Card/Card';
 class Board extends React.Component {
   constructor(props) {
     super(props);
-    const { boardTitle } = this.props;
+
     this.state = {
-      cards: [
-        {
-          createdDate: Date.now(),
-          cardContent: boardTitle + Date.now(),
-          counterValue: Math.round((Math.random() - 0.5) * 10)
-        }
-      ],
+      cards: [],
       isAddingCard: false
     };
     this.newCardContent = '';
@@ -89,10 +83,7 @@ class Board extends React.Component {
     this.setState((previousState) => {
       const { isAddingCard } = previousState;
 
-      return {
-        isAddingCard: !isAddingCard,
-        cardCandidateValue: ''
-      };
+      return { isAddingCard: !isAddingCard };
     });
   }
 
